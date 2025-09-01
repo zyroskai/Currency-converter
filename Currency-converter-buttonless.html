@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Currency Converter</title>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A stylish and responsive currency converter">
+  <meta name="keywords" content="currency, converter, exchange rate, USD, INR, EUR">
+  <meta name="author" content="Your Name">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+<style>
+    * {
+      text-align: center;
+      font-family:'Poppins', sans-serif;
+    }
+    .converter-row {
+      display: flex;
+      justify-content: center;
+      margin: 15px auto; 
+    }
+    .converter-row select {
+      padding: 8px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-right: none;   
+      border-radius: 8px 0 0 8px;
+    }
+    .converter-row input {
+      padding: 8px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    button{
+     padding: 8px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+</style>
+</head>
+<body>
+<img src= "https://png.pngtree.com/png-clipart/20220919/original/pngtree-currency-exchange-png-image_8624030.png" style="width:400px;">
+<h1 style="font-size:36px;">Currency converter</h1>
+
+  <div class="converter-row">
+<select id="fromCurrency">
+  <option value="USD">USD</option>
+  <option value="EUR">EUR</option>
+  <option value="INR">INR</option>
+  <option value="GBP">GBP</option>
+  <option value="JPY">JPY</option>
+</select>
+<input id="fromAmount" type="number" value="number">
+<h2 style="padding:0px 18px 0px 18px;"> = </h2>
+<select id="toCurrency">
+  <option value="USD">USD</option>
+  <option value="EUR">EUR</option>
+  <option value="INR">INR</option>
+  <option value="GBP">GBP</option>
+  <option value="JPY">JPY</option>
+</select><input id="toAmount" type="number" value="number" readonly>
+<br>
+</div>
+</body>
+<script>
+const rates = {
+      USD_INR: 88.5,
+      INR_USD: 1 / 88.5,
+
+      USD_EUR: 0.91,
+      EUR_USD: 1 / 0.91,
+
+      USD_GBP: 0.78,
+      GBP_USD: 1 / 0.78,
+
+      USD_JPY: 146,
+      JPY_USD: 1 / 146,
+
+      EUR_INR: 96.7,
+      INR_EUR: 1 / 96.7,
+
+      GBP_INR: 112.5,
+      INR_GBP: 1 / 112.5,
+
+      JPY_INR: 0.60,
+      INR_JPY: 1 / 0.60
+    };
+function convert()
+{
+     let fromCurrency = document.getElementById("fromCurrency").value;
+      let toCurrency = document.getElementById("toCurrency").value;
+      let fromAmount = parseFloat(document.getElementById("fromAmount").value);
+      
+  if (isNaN(fromAmount)) {
+        document.getElementById("toAmount").value = null;
+    return;
+  }
+  
+   if (fromCurrency === toCurrency) {
+        document.getElementById("toAmount").value = fromAmount;
+        return;
+      }
+  let key = fromCurrency+"_"+toCurrency;
+  if (rates[key])
+  {
+  let converted = fromAmount * rates[key];
+  document.getElementById("toAmount").value = converted.toFixed(2);
+  }
+  else{
+  alert("Conversion rate not available for the selected option");
+}
+}
+     document.getElementById("fromCurrency").addEventListener("change", convert);
+    document.getElementById("toCurrency").addEventListener("change", convert);
+    document.getElementById("fromAmount").addEventListener("input", convert);
+</script>
+</html>
